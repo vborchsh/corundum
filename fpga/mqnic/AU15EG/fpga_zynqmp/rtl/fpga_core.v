@@ -281,42 +281,42 @@ module fpga_core #
     /*
      * Ethernet: SFP+
      */
-    input  wire                                 sfp0_tx_clk,
-    input  wire                                 sfp0_tx_rst,
-    output wire [63:0]                          sfp0_txd,
-    output wire [7:0]                           sfp0_txc,
-    output wire                                 sfp0_cfg_tx_prbs31_enable,
-    input  wire                                 sfp0_rx_clk,
-    input  wire                                 sfp0_rx_rst,
-    input  wire [63:0]                          sfp0_rxd,
-    input  wire [7:0]                           sfp0_rxc,
-    output wire                                 sfp0_cfg_rx_prbs31_enable,
-    input  wire [6:0]                           sfp0_rx_error_count,
-    input  wire                                 sfp0_rx_status,
-    output wire                                 sfp0_tx_disable_b,
+    // input  wire                                 sfp0_tx_clk,
+    // input  wire                                 sfp0_tx_rst,
+    // output wire [63:0]                          sfp0_txd,
+    // output wire [7:0]                           sfp0_txc,
+    // output wire                                 sfp0_cfg_tx_prbs31_enable,
+    // input  wire                                 sfp0_rx_clk,
+    // input  wire                                 sfp0_rx_rst,
+    // input  wire [63:0]                          sfp0_rxd,
+    // input  wire [7:0]                           sfp0_rxc,
+    // output wire                                 sfp0_cfg_rx_prbs31_enable,
+    // input  wire [6:0]                           sfp0_rx_error_count,
+    // input  wire                                 sfp0_rx_status,
+    // output wire                                 sfp0_tx_disable_b,
 
-    input  wire                                 sfp1_tx_clk,
-    input  wire                                 sfp1_tx_rst,
-    output wire [63:0]                          sfp1_txd,
-    output wire [7:0]                           sfp1_txc,
-    output wire                                 sfp1_cfg_tx_prbs31_enable,
-    input  wire                                 sfp1_rx_clk,
-    input  wire                                 sfp1_rx_rst,
-    input  wire [63:0]                          sfp1_rxd,
-    input  wire [7:0]                           sfp1_rxc,
-    output wire                                 sfp1_cfg_rx_prbs31_enable,
-    input  wire [6:0]                           sfp1_rx_error_count,
-    input  wire                                 sfp1_rx_status,
-    output wire                                 sfp1_tx_disable_b,
+    // input  wire                                 sfp1_tx_clk,
+    // input  wire                                 sfp1_tx_rst,
+    // output wire [63:0]                          sfp1_txd,
+    // output wire [7:0]                           sfp1_txc,
+    // output wire                                 sfp1_cfg_tx_prbs31_enable,
+    // input  wire                                 sfp1_rx_clk,
+    // input  wire                                 sfp1_rx_rst,
+    // input  wire [63:0]                          sfp1_rxd,
+    // input  wire [7:0]                           sfp1_rxc,
+    // output wire                                 sfp1_cfg_rx_prbs31_enable,
+    // input  wire [6:0]                           sfp1_rx_error_count,
+    // input  wire                                 sfp1_rx_status,
+    // output wire                                 sfp1_tx_disable_b,
 
-    input  wire                                 sfp_drp_clk,
-    input  wire                                 sfp_drp_rst,
-    output wire [23:0]                          sfp_drp_addr,
-    output wire [15:0]                          sfp_drp_di,
-    output wire                                 sfp_drp_en,
-    output wire                                 sfp_drp_we,
-    input  wire [15:0]                          sfp_drp_do,
-    input  wire                                 sfp_drp_rdy,
+    // input  wire                                 sfp_drp_clk,
+    // input  wire                                 sfp_drp_rst,
+    // output wire [23:0]                          sfp_drp_addr,
+    // output wire [15:0]                          sfp_drp_di,
+    // output wire                                 sfp_drp_en,
+    // output wire                                 sfp_drp_we,
+    // input  wire [15:0]                          sfp_drp_do,
+    // input  wire                                 sfp_drp_rdy,
 
     /*
      * DDR
@@ -451,8 +451,8 @@ assign ctrl_reg_rd_data = ctrl_reg_rd_data_reg | sfp_drp_reg_rd_data;
 assign ctrl_reg_rd_wait = sfp_drp_reg_rd_wait;
 assign ctrl_reg_rd_ack = ctrl_reg_rd_ack_reg | sfp_drp_reg_rd_ack;
 
-assign sfp0_tx_disable_b = 1'b0;//!sfp0_tx_disable_reg;
-assign sfp1_tx_disable_b = 1'b0;//!sfp1_tx_disable_reg;
+assign sfp0_tx_disable_b = !sfp0_tx_disable_reg;
+assign sfp1_tx_disable_b = !sfp1_tx_disable_reg;
 
 always @(posedge clk_300mhz) begin
     ctrl_reg_wr_ack_reg <= 1'b0;
@@ -503,110 +503,110 @@ always @(posedge clk_300mhz) begin
     end
 end
 
-rb_drp #(
-    .DRP_ADDR_WIDTH(24),
-    .DRP_DATA_WIDTH(16),
-    .DRP_INFO({8'h09, 8'h02, 8'd0, 8'd2}),
-    .REG_ADDR_WIDTH(AXIL_CSR_ADDR_WIDTH),
-    .REG_DATA_WIDTH(AXIL_CTRL_DATA_WIDTH),
-    .REG_STRB_WIDTH(AXIL_CTRL_STRB_WIDTH),
-    .RB_BASE_ADDR(RB_DRP_SFP_BASE),
-    .RB_NEXT_PTR(0)
-)
-sfp_rb_drp_inst (
-    .clk(clk_300mhz),
-    .rst(rst_300mhz),
+// rb_drp #(
+//     .DRP_ADDR_WIDTH(24),
+//     .DRP_DATA_WIDTH(16),
+//     .DRP_INFO({8'h09, 8'h02, 8'd0, 8'd2}),
+//     .REG_ADDR_WIDTH(AXIL_CSR_ADDR_WIDTH),
+//     .REG_DATA_WIDTH(AXIL_CTRL_DATA_WIDTH),
+//     .REG_STRB_WIDTH(AXIL_CTRL_STRB_WIDTH),
+//     .RB_BASE_ADDR(RB_DRP_SFP_BASE),
+//     .RB_NEXT_PTR(0)
+// )
+// sfp_rb_drp_inst (
+//     .clk(clk_300mhz),
+//     .rst(rst_300mhz),
 
-    /*
-     * Register interface
-     */
-    .reg_wr_addr(ctrl_reg_wr_addr),
-    .reg_wr_data(ctrl_reg_wr_data),
-    .reg_wr_strb(ctrl_reg_wr_strb),
-    .reg_wr_en(ctrl_reg_wr_en),
-    .reg_wr_wait(sfp_drp_reg_wr_wait),
-    .reg_wr_ack(sfp_drp_reg_wr_ack),
-    .reg_rd_addr(ctrl_reg_rd_addr),
-    .reg_rd_en(ctrl_reg_rd_en),
-    .reg_rd_data(sfp_drp_reg_rd_data),
-    .reg_rd_wait(sfp_drp_reg_rd_wait),
-    .reg_rd_ack(sfp_drp_reg_rd_ack),
+//     /*
+//      * Register interface
+//      */
+//     .reg_wr_addr(ctrl_reg_wr_addr),
+//     .reg_wr_data(ctrl_reg_wr_data),
+//     .reg_wr_strb(ctrl_reg_wr_strb),
+//     .reg_wr_en(ctrl_reg_wr_en),
+//     .reg_wr_wait(sfp_drp_reg_wr_wait),
+//     .reg_wr_ack(sfp_drp_reg_wr_ack),
+//     .reg_rd_addr(ctrl_reg_rd_addr),
+//     .reg_rd_en(ctrl_reg_rd_en),
+//     .reg_rd_data(sfp_drp_reg_rd_data),
+//     .reg_rd_wait(sfp_drp_reg_rd_wait),
+//     .reg_rd_ack(sfp_drp_reg_rd_ack),
 
-    /*
-     * DRP
-     */
-    .drp_clk(sfp_drp_clk),
-    .drp_rst(sfp_drp_rst),
-    .drp_addr(sfp_drp_addr),
-    .drp_di(sfp_drp_di),
-    .drp_en(sfp_drp_en),
-    .drp_we(sfp_drp_we),
-    .drp_do(sfp_drp_do),
-    .drp_rdy(sfp_drp_rdy)
-);
+//     /*
+//      * DRP
+//      */
+//     .drp_clk(sfp_drp_clk),
+//     .drp_rst(sfp_drp_rst),
+//     .drp_addr(sfp_drp_addr),
+//     .drp_di(sfp_drp_di),
+//     .drp_en(sfp_drp_en),
+//     .drp_we(sfp_drp_we),
+//     .drp_do(sfp_drp_do),
+//     .drp_rdy(sfp_drp_rdy)
+// );
 
-generate
+// generate
 
-if (TDMA_BER_ENABLE) begin
+// if (TDMA_BER_ENABLE) begin
 
-    // BER tester
-    tdma_ber #(
-        .COUNT(2),
-        .INDEX_WIDTH(6),
-        .SLICE_WIDTH(5),
-        .AXIL_DATA_WIDTH(AXIL_CTRL_DATA_WIDTH),
-        .AXIL_ADDR_WIDTH(8+6+$clog2(2)),
-        .AXIL_STRB_WIDTH(AXIL_CTRL_STRB_WIDTH),
-        .SCHEDULE_START_S(0),
-        .SCHEDULE_START_NS(0),
-        .SCHEDULE_PERIOD_S(0),
-        .SCHEDULE_PERIOD_NS(1000000),
-        .TIMESLOT_PERIOD_S(0),
-        .TIMESLOT_PERIOD_NS(100000),
-        .ACTIVE_PERIOD_S(0),
-        .ACTIVE_PERIOD_NS(90000)
-    )
-    tdma_ber_inst (
-        .clk(clk_300mhz),
-        .rst(rst_300mhz),
-        .phy_tx_clk({sfp1_tx_clk, sfp0_tx_clk}),
-        .phy_rx_clk({sfp1_rx_clk, sfp0_rx_clk}),
-        .phy_rx_error_count({sfp1_rx_error_count, sfp0_rx_error_count}),
-        .phy_cfg_tx_prbs31_enable({sfp1_cfg_tx_prbs31_enable, sfp0_cfg_tx_prbs31_enable}),
-        .phy_cfg_rx_prbs31_enable({sfp1_cfg_rx_prbs31_enable, sfp0_cfg_rx_prbs31_enable}),
-        .s_axil_awaddr(axil_csr_awaddr),
-        .s_axil_awprot(axil_csr_awprot),
-        .s_axil_awvalid(axil_csr_awvalid),
-        .s_axil_awready(axil_csr_awready),
-        .s_axil_wdata(axil_csr_wdata),
-        .s_axil_wstrb(axil_csr_wstrb),
-        .s_axil_wvalid(axil_csr_wvalid),
-        .s_axil_wready(axil_csr_wready),
-        .s_axil_bresp(axil_csr_bresp),
-        .s_axil_bvalid(axil_csr_bvalid),
-        .s_axil_bready(axil_csr_bready),
-        .s_axil_araddr(axil_csr_araddr),
-        .s_axil_arprot(axil_csr_arprot),
-        .s_axil_arvalid(axil_csr_arvalid),
-        .s_axil_arready(axil_csr_arready),
-        .s_axil_rdata(axil_csr_rdata),
-        .s_axil_rresp(axil_csr_rresp),
-        .s_axil_rvalid(axil_csr_rvalid),
-        .s_axil_rready(axil_csr_rready),
-        .ptp_ts_96(ptp_sync_ts_tod),
-        .ptp_ts_step(ptp_sync_ts_tod_step)
-    );
+//     // BER tester
+//     tdma_ber #(
+//         .COUNT(2),
+//         .INDEX_WIDTH(6),
+//         .SLICE_WIDTH(5),
+//         .AXIL_DATA_WIDTH(AXIL_CTRL_DATA_WIDTH),
+//         .AXIL_ADDR_WIDTH(8+6+$clog2(2)),
+//         .AXIL_STRB_WIDTH(AXIL_CTRL_STRB_WIDTH),
+//         .SCHEDULE_START_S(0),
+//         .SCHEDULE_START_NS(0),
+//         .SCHEDULE_PERIOD_S(0),
+//         .SCHEDULE_PERIOD_NS(1000000),
+//         .TIMESLOT_PERIOD_S(0),
+//         .TIMESLOT_PERIOD_NS(100000),
+//         .ACTIVE_PERIOD_S(0),
+//         .ACTIVE_PERIOD_NS(90000)
+//     )
+//     tdma_ber_inst (
+//         .clk(clk_300mhz),
+//         .rst(rst_300mhz),
+//         .phy_tx_clk({sfp1_tx_clk, sfp0_tx_clk}),
+//         .phy_rx_clk({sfp1_rx_clk, sfp0_rx_clk}),
+//         .phy_rx_error_count({sfp1_rx_error_count, sfp0_rx_error_count}),
+//         .phy_cfg_tx_prbs31_enable({sfp1_cfg_tx_prbs31_enable, sfp0_cfg_tx_prbs31_enable}),
+//         .phy_cfg_rx_prbs31_enable({sfp1_cfg_rx_prbs31_enable, sfp0_cfg_rx_prbs31_enable}),
+//         .s_axil_awaddr(axil_csr_awaddr),
+//         .s_axil_awprot(axil_csr_awprot),
+//         .s_axil_awvalid(axil_csr_awvalid),
+//         .s_axil_awready(axil_csr_awready),
+//         .s_axil_wdata(axil_csr_wdata),
+//         .s_axil_wstrb(axil_csr_wstrb),
+//         .s_axil_wvalid(axil_csr_wvalid),
+//         .s_axil_wready(axil_csr_wready),
+//         .s_axil_bresp(axil_csr_bresp),
+//         .s_axil_bvalid(axil_csr_bvalid),
+//         .s_axil_bready(axil_csr_bready),
+//         .s_axil_araddr(axil_csr_araddr),
+//         .s_axil_arprot(axil_csr_arprot),
+//         .s_axil_arvalid(axil_csr_arvalid),
+//         .s_axil_arready(axil_csr_arready),
+//         .s_axil_rdata(axil_csr_rdata),
+//         .s_axil_rresp(axil_csr_rresp),
+//         .s_axil_rvalid(axil_csr_rvalid),
+//         .s_axil_rready(axil_csr_rready),
+//         .ptp_ts_96(ptp_sync_ts_tod),
+//         .ptp_ts_step(ptp_sync_ts_tod_step)
+//     );
 
-end else begin
+// end else begin
 
-    assign sfp0_cfg_tx_prbs31_enable = 1'b0;
-    assign sfp0_cfg_rx_prbs31_enable = 1'b0;
-    assign sfp1_cfg_tx_prbs31_enable = 1'b0;
-    assign sfp1_cfg_rx_prbs31_enable = 1'b0;
+//     assign sfp0_cfg_tx_prbs31_enable = 1'b0;
+//     assign sfp0_cfg_rx_prbs31_enable = 1'b0;
+//     assign sfp1_cfg_tx_prbs31_enable = 1'b0;
+//     assign sfp1_cfg_rx_prbs31_enable = 1'b0;
 
-end
+// end
 
-endgenerate
+// endgenerate
 
 assign led[6:0] = 0;
 assign led[7] = ptp_pps_str;
@@ -649,6 +649,29 @@ wire [PORT_COUNT-1:0]                         axis_eth_rx_tready;
 wire [PORT_COUNT-1:0]                         axis_eth_rx_tlast;
 wire [PORT_COUNT*AXIS_ETH_RX_USER_WIDTH-1:0]  axis_eth_rx_tuser;
 
+/* fake axis to mac port 2 */
+wire [PORT_COUNT*AXIS_ETH_DATA_WIDTH-1:0]     f_axis_eth_rx_tdata;
+wire [PORT_COUNT*AXIS_ETH_KEEP_WIDTH-1:0]     f_axis_eth_rx_tkeep;
+wire [PORT_COUNT-1:0]                         f_axis_eth_rx_tvalid;
+wire [PORT_COUNT-1:0]                         f_axis_eth_rx_tready;
+wire [PORT_COUNT-1:0]                         f_axis_eth_rx_tlast;
+wire [PORT_COUNT*AXIS_ETH_RX_USER_WIDTH-1:0]  f_axis_eth_rx_tuser;
+wire [PORT_COUNT-1:0]                         f_eth_rx_clk;
+wire [PORT_COUNT-1:0]                         f_eth_rx_rst;
+
+wire [PORT_COUNT*AXIS_ETH_DATA_WIDTH-1:0]     f_axis_eth_tx_tdata;
+wire [PORT_COUNT*AXIS_ETH_KEEP_WIDTH-1:0]     f_axis_eth_tx_tkeep;
+wire [PORT_COUNT-1:0]                         f_axis_eth_tx_tvalid;
+wire [PORT_COUNT-1:0]                         f_axis_eth_tx_tready;
+wire [PORT_COUNT-1:0]                         f_axis_eth_tx_tlast;
+wire [PORT_COUNT*AXIS_ETH_TX_USER_WIDTH-1:0]  f_axis_eth_tx_tuser;
+/* fake axis to mac port 2*/
+
+/* fake status*/
+wire [PORT_COUNT-1:0]                         f_eth_rx_status;
+wire [PORT_COUNT-1:0]                         f_eth_tx_status;
+/* fake status*/
+
 wire [PORT_COUNT-1:0]                         eth_rx_enable;
 wire [PORT_COUNT-1:0]                         eth_rx_status;
 wire [PORT_COUNT-1:0]                         eth_rx_lfc_en;
@@ -658,223 +681,248 @@ wire [PORT_COUNT*8-1:0]                       eth_rx_pfc_en;
 wire [PORT_COUNT*8-1:0]                       eth_rx_pfc_req;
 wire [PORT_COUNT*8-1:0]                       eth_rx_pfc_ack;
 
-wire [PORT_COUNT-1:0]                   port_xgmii_tx_clk;
-wire [PORT_COUNT-1:0]                   port_xgmii_tx_rst;
-wire [PORT_COUNT*XGMII_DATA_WIDTH-1:0]  port_xgmii_txd;
-wire [PORT_COUNT*XGMII_CTRL_WIDTH-1:0]  port_xgmii_txc;
+// wire [PORT_COUNT-1:0]                   port_xgmii_tx_clk;
+// wire [PORT_COUNT-1:0]                   port_xgmii_tx_rst;
+// wire [PORT_COUNT*XGMII_DATA_WIDTH-1:0]  port_xgmii_txd;
+// wire [PORT_COUNT*XGMII_CTRL_WIDTH-1:0]  port_xgmii_txc;
 
-wire [PORT_COUNT-1:0]                   port_xgmii_rx_clk;
-wire [PORT_COUNT-1:0]                   port_xgmii_rx_rst;
-wire [PORT_COUNT*XGMII_DATA_WIDTH-1:0]  port_xgmii_rxd;
-wire [PORT_COUNT*XGMII_CTRL_WIDTH-1:0]  port_xgmii_rxc;
+// wire [PORT_COUNT-1:0]                   port_xgmii_rx_clk;
+// wire [PORT_COUNT-1:0]                   port_xgmii_rx_rst;
+// wire [PORT_COUNT*XGMII_DATA_WIDTH-1:0]  port_xgmii_rxd;
+// wire [PORT_COUNT*XGMII_CTRL_WIDTH-1:0]  port_xgmii_rxc;
 
-mqnic_port_map_phy_xgmii #(
-    .PHY_COUNT(2),
-    .PORT_MASK(PORT_MASK),
-    .PORT_GROUP_SIZE(1),
+// mqnic_port_map_phy_xgmii #(
+//     .PHY_COUNT(2),
+//     .PORT_MASK(PORT_MASK),
+//     .PORT_GROUP_SIZE(1),
 
-    .IF_COUNT(IF_COUNT),
-    .PORTS_PER_IF(PORTS_PER_IF),
+//     .IF_COUNT(IF_COUNT),
+//     .PORTS_PER_IF(PORTS_PER_IF),
 
-    .PORT_COUNT(PORT_COUNT),
+//     .PORT_COUNT(PORT_COUNT),
 
-    .XGMII_DATA_WIDTH(XGMII_DATA_WIDTH),
-    .XGMII_CTRL_WIDTH(XGMII_CTRL_WIDTH)
-)
-mqnic_port_map_phy_xgmii_inst (
-    // towards PHY
-    .phy_xgmii_tx_clk({sfp1_tx_clk, sfp0_tx_clk}),
-    .phy_xgmii_tx_rst({sfp1_tx_rst, sfp0_tx_rst}),
-    .phy_xgmii_txd({sfp1_txd, sfp0_txd}),
-    .phy_xgmii_txc({sfp1_txc, sfp0_txc}),
-    .phy_tx_status(2'b11),
+//     .XGMII_DATA_WIDTH(XGMII_DATA_WIDTH),
+//     .XGMII_CTRL_WIDTH(XGMII_CTRL_WIDTH)
+// )
+// mqnic_port_map_phy_xgmii_inst (
+//     // towards PHY
+//     .phy_xgmii_tx_clk({sfp1_tx_clk, sfp0_tx_clk}),
+//     .phy_xgmii_tx_rst({sfp1_tx_rst, sfp0_tx_rst}),
+//     .phy_xgmii_txd({sfp1_txd, sfp0_txd}),
+//     .phy_xgmii_txc({sfp1_txc, sfp0_txc}),
+//     .phy_tx_status(2'b11),
 
-    .phy_xgmii_rx_clk({sfp1_rx_clk, sfp0_rx_clk}),
-    .phy_xgmii_rx_rst({sfp1_rx_rst, sfp0_rx_rst}),
-    .phy_xgmii_rxd({sfp1_rxd, sfp0_rxd}),
-    .phy_xgmii_rxc({sfp1_rxc, sfp0_rxc}),
-    .phy_rx_status({sfp1_rx_status, sfp0_rx_status}),
+//     .phy_xgmii_rx_clk({sfp1_rx_clk, sfp0_rx_clk}),
+//     .phy_xgmii_rx_rst({sfp1_rx_rst, sfp0_rx_rst}),
+//     .phy_xgmii_rxd({sfp1_rxd, sfp0_rxd}),
+//     .phy_xgmii_rxc({sfp1_rxc, sfp0_rxc}),
+//     .phy_rx_status({sfp1_rx_status, sfp0_rx_status}),
 
-    // towards MAC
-    .port_xgmii_tx_clk(port_xgmii_tx_clk),
-    .port_xgmii_tx_rst(port_xgmii_tx_rst),
-    .port_xgmii_txd(port_xgmii_txd),
-    .port_xgmii_txc(port_xgmii_txc),
-    .port_tx_status(eth_tx_status),
+//     // towards MAC
+//     .port_xgmii_tx_clk(port_xgmii_tx_clk),
+//     .port_xgmii_tx_rst(port_xgmii_tx_rst),
+//     .port_xgmii_txd(port_xgmii_txd),
+//     .port_xgmii_txc(port_xgmii_txc),
+//     .port_tx_status(eth_tx_status),
 
-    .port_xgmii_rx_clk(port_xgmii_rx_clk),
-    .port_xgmii_rx_rst(port_xgmii_rx_rst),
-    .port_xgmii_rxd(port_xgmii_rxd),
-    .port_xgmii_rxc(port_xgmii_rxc),
-    .port_rx_status(eth_rx_status)
-);
+//     .port_xgmii_rx_clk(port_xgmii_rx_clk),
+//     .port_xgmii_rx_rst(port_xgmii_rx_rst),
+//     .port_xgmii_rxd(port_xgmii_rxd),
+//     .port_xgmii_rxc(port_xgmii_rxc),
+//     .port_rx_status(eth_rx_status)
+// );
 
-generate
-    genvar n;
+// generate
+//     genvar n;
 
-    for (n = 0; n < PORT_COUNT; n = n + 1) begin : mac
+//     for (n = 0; n < PORT_COUNT; n = n + 1) begin : mac
 
-        assign eth_tx_clk[n] = port_xgmii_tx_clk[n];
-        assign eth_tx_rst[n] = port_xgmii_tx_rst[n];
-        assign eth_rx_clk[n] = port_xgmii_rx_clk[n];
-        assign eth_rx_rst[n] = port_xgmii_rx_rst[n];
+//         assign eth_tx_clk[n] = port_xgmii_tx_clk[n];
+//         assign eth_tx_rst[n] = port_xgmii_tx_rst[n];
+//         assign eth_rx_clk[n] = port_xgmii_rx_clk[n];
+//         assign eth_rx_rst[n] = port_xgmii_rx_rst[n];
+//         assign f_eth_rx_clk[n] = clk_300mhz;
+//         assign f_eth_rx_rst[n] = rst_300mhz;
 
-        eth_mac_10g #(
-            .DATA_WIDTH(AXIS_ETH_DATA_WIDTH),
-            .KEEP_WIDTH(AXIS_ETH_KEEP_WIDTH),
-            .ENABLE_PADDING(ENABLE_PADDING),
-            .ENABLE_DIC(ENABLE_DIC),
-            .MIN_FRAME_LENGTH(MIN_FRAME_LENGTH),
-            .PTP_PERIOD_NS(IF_PTP_PERIOD_NS),
-            .PTP_PERIOD_FNS(IF_PTP_PERIOD_FNS),
-            .TX_PTP_TS_ENABLE(PTP_TS_ENABLE),
-            .TX_PTP_TS_WIDTH(PTP_TS_WIDTH),
-            .TX_PTP_TS_CTRL_IN_TUSER(0),
-            .TX_PTP_TAG_ENABLE(PTP_TS_ENABLE),
-            .TX_PTP_TAG_WIDTH(TX_TAG_WIDTH),
-            .RX_PTP_TS_ENABLE(PTP_TS_ENABLE),
-            .RX_PTP_TS_WIDTH(PTP_TS_WIDTH),
-            .TX_USER_WIDTH(AXIS_ETH_TX_USER_WIDTH),
-            .RX_USER_WIDTH(AXIS_ETH_RX_USER_WIDTH),
-            .PFC_ENABLE(PFC_ENABLE),
-            .PAUSE_ENABLE(LFC_ENABLE)
-        )
-        eth_mac_inst (
-            .tx_clk(port_xgmii_tx_clk[n]),
-            .tx_rst(port_xgmii_tx_rst[n]),
-            .rx_clk(port_xgmii_rx_clk[n]),
-            .rx_rst(port_xgmii_rx_rst[n]),
+//         eth_mac_10g #(
+//             .DATA_WIDTH(AXIS_ETH_DATA_WIDTH),
+//             .KEEP_WIDTH(AXIS_ETH_KEEP_WIDTH),
+//             .ENABLE_PADDING(ENABLE_PADDING),
+//             .ENABLE_DIC(ENABLE_DIC),
+//             .MIN_FRAME_LENGTH(MIN_FRAME_LENGTH),
+//             .PTP_PERIOD_NS(IF_PTP_PERIOD_NS),
+//             .PTP_PERIOD_FNS(IF_PTP_PERIOD_FNS),
+//             .TX_PTP_TS_ENABLE(PTP_TS_ENABLE),
+//             .TX_PTP_TS_WIDTH(PTP_TS_WIDTH),
+//             .TX_PTP_TS_CTRL_IN_TUSER(0),
+//             .TX_PTP_TAG_ENABLE(PTP_TS_ENABLE),
+//             .TX_PTP_TAG_WIDTH(TX_TAG_WIDTH),
+//             .RX_PTP_TS_ENABLE(PTP_TS_ENABLE),
+//             .RX_PTP_TS_WIDTH(PTP_TS_WIDTH),
+//             .TX_USER_WIDTH(AXIS_ETH_TX_USER_WIDTH),
+//             .RX_USER_WIDTH(AXIS_ETH_RX_USER_WIDTH),
+//             .PFC_ENABLE(PFC_ENABLE),
+//             .PAUSE_ENABLE(LFC_ENABLE)
+//         )
+//         eth_mac_inst (
+//             .tx_clk(port_xgmii_tx_clk[n]),
+//             .tx_rst(port_xgmii_tx_rst[n]),
+//             .rx_clk(port_xgmii_rx_clk[n]),
+//             .rx_rst(port_xgmii_rx_rst[n]),
 
-            /*
-             * AXI input
-             */
-            .tx_axis_tdata(axis_eth_tx_tdata[n*AXIS_ETH_DATA_WIDTH +: AXIS_ETH_DATA_WIDTH]),
-            .tx_axis_tkeep(axis_eth_tx_tkeep[n*AXIS_ETH_KEEP_WIDTH +: AXIS_ETH_KEEP_WIDTH]),
-            .tx_axis_tvalid(axis_eth_tx_tvalid[n +: 1]),
-            .tx_axis_tready(axis_eth_tx_tready[n +: 1]),
-            .tx_axis_tlast(axis_eth_tx_tlast[n +: 1]),
-            .tx_axis_tuser(axis_eth_tx_tuser[n*AXIS_ETH_TX_USER_WIDTH +: AXIS_ETH_TX_USER_WIDTH]),
+//             /*
+//              * AXI input
+//              */
+//             .tx_axis_tdata(axis_eth_tx_tdata[n*AXIS_ETH_DATA_WIDTH +: AXIS_ETH_DATA_WIDTH]),
+//             .tx_axis_tkeep(axis_eth_tx_tkeep[n*AXIS_ETH_KEEP_WIDTH +: AXIS_ETH_KEEP_WIDTH]),
+//             .tx_axis_tvalid(axis_eth_tx_tvalid[n +: 1]),
+//             .tx_axis_tready(axis_eth_tx_tready[n +: 1]),
+//             .tx_axis_tlast(axis_eth_tx_tlast[n +: 1]),
+//             .tx_axis_tuser(axis_eth_tx_tuser[n*AXIS_ETH_TX_USER_WIDTH +: AXIS_ETH_TX_USER_WIDTH]),
 
-            /*
-             * AXI output
-             */
-            .rx_axis_tdata(axis_eth_rx_tdata[n*AXIS_ETH_DATA_WIDTH +: AXIS_ETH_DATA_WIDTH]),
-            .rx_axis_tkeep(axis_eth_rx_tkeep[n*AXIS_ETH_KEEP_WIDTH +: AXIS_ETH_KEEP_WIDTH]),
-            .rx_axis_tvalid(axis_eth_rx_tvalid[n +: 1]),
-            .rx_axis_tlast(axis_eth_rx_tlast[n +: 1]),
-            .rx_axis_tuser(axis_eth_rx_tuser[n*AXIS_ETH_RX_USER_WIDTH +: AXIS_ETH_RX_USER_WIDTH]),
+//             /*
+//              * AXI output
+//              */
+//             .rx_axis_tdata(axis_eth_rx_tdata[n*AXIS_ETH_DATA_WIDTH +: AXIS_ETH_DATA_WIDTH]),
+//             .rx_axis_tkeep(axis_eth_rx_tkeep[n*AXIS_ETH_KEEP_WIDTH +: AXIS_ETH_KEEP_WIDTH]),
+//             .rx_axis_tvalid(axis_eth_rx_tvalid[n +: 1]),
+//             .rx_axis_tlast(axis_eth_rx_tlast[n +: 1]),
+//             .rx_axis_tuser(axis_eth_rx_tuser[n*AXIS_ETH_RX_USER_WIDTH +: AXIS_ETH_RX_USER_WIDTH]),
 
-            /*
-             * XGMII interface
-             */
-            .xgmii_rxd(port_xgmii_rxd[n*XGMII_DATA_WIDTH +: XGMII_DATA_WIDTH]),
-            .xgmii_rxc(port_xgmii_rxc[n*XGMII_CTRL_WIDTH +: XGMII_CTRL_WIDTH]),
-            .xgmii_txd(port_xgmii_txd[n*XGMII_DATA_WIDTH +: XGMII_DATA_WIDTH]),
-            .xgmii_txc(port_xgmii_txc[n*XGMII_CTRL_WIDTH +: XGMII_CTRL_WIDTH]),
+//             /*
+//              * XGMII interface
+//              */
+//             .xgmii_rxd(port_xgmii_rxd[n*XGMII_DATA_WIDTH +: XGMII_DATA_WIDTH]),
+//             .xgmii_rxc(port_xgmii_rxc[n*XGMII_CTRL_WIDTH +: XGMII_CTRL_WIDTH]),
+//             .xgmii_txd(port_xgmii_txd[n*XGMII_DATA_WIDTH +: XGMII_DATA_WIDTH]),
+//             .xgmii_txc(port_xgmii_txc[n*XGMII_CTRL_WIDTH +: XGMII_CTRL_WIDTH]),
 
-            /*
-             * PTP
-             */
-            .tx_ptp_ts(eth_tx_ptp_ts_tod[n*PTP_TS_WIDTH +: PTP_TS_WIDTH]),
-            .rx_ptp_ts(eth_rx_ptp_ts_tod[n*PTP_TS_WIDTH +: PTP_TS_WIDTH]),
-            .tx_axis_ptp_ts(axis_eth_tx_ptp_ts[n*PTP_TS_WIDTH +: PTP_TS_WIDTH]),
-            .tx_axis_ptp_ts_tag(axis_eth_tx_ptp_ts_tag[n*TX_TAG_WIDTH +: TX_TAG_WIDTH]),
-            .tx_axis_ptp_ts_valid(axis_eth_tx_ptp_ts_valid[n +: 1]),
+//             /*
+//              * PTP
+//              */
+//             .tx_ptp_ts(eth_tx_ptp_ts_tod[n*PTP_TS_WIDTH +: PTP_TS_WIDTH]),
+//             .rx_ptp_ts(eth_rx_ptp_ts_tod[n*PTP_TS_WIDTH +: PTP_TS_WIDTH]),
+//             .tx_axis_ptp_ts(axis_eth_tx_ptp_ts[n*PTP_TS_WIDTH +: PTP_TS_WIDTH]),
+//             .tx_axis_ptp_ts_tag(axis_eth_tx_ptp_ts_tag[n*TX_TAG_WIDTH +: TX_TAG_WIDTH]),
+//             .tx_axis_ptp_ts_valid(axis_eth_tx_ptp_ts_valid[n +: 1]),
 
-            /*
-             * Link-level Flow Control (LFC) (IEEE 802.3 annex 31B PAUSE)
-             */
-            .tx_lfc_req(eth_tx_lfc_req[n +: 1]),
-            .tx_lfc_resend(1'b0),
-            .rx_lfc_en(eth_rx_lfc_en[n +: 1]),
-            .rx_lfc_req(eth_rx_lfc_req[n +: 1]),
-            .rx_lfc_ack(eth_rx_lfc_ack[n +: 1]),
+//             /*
+//              * Link-level Flow Control (LFC) (IEEE 802.3 annex 31B PAUSE)
+//              */
+//             .tx_lfc_req(eth_tx_lfc_req[n +: 1]),
+//             .tx_lfc_resend(1'b0),
+//             .rx_lfc_en(eth_rx_lfc_en[n +: 1]),
+//             .rx_lfc_req(eth_rx_lfc_req[n +: 1]),
+//             .rx_lfc_ack(eth_rx_lfc_ack[n +: 1]),
 
-            /*
-             * Priority Flow Control (PFC) (IEEE 802.3 annex 31D PFC)
-             */
-            .tx_pfc_req(eth_tx_pfc_req[n*8 +: 8]),
-            .tx_pfc_resend(1'b0),
-            .rx_pfc_en(eth_rx_pfc_en[n*8 +: 8]),
-            .rx_pfc_req(eth_rx_pfc_req[n*8 +: 8]),
-            .rx_pfc_ack(eth_rx_pfc_ack[n*8 +: 8]),
+//             /*
+//              * Priority Flow Control (PFC) (IEEE 802.3 annex 31D PFC)
+//              */
+//             .tx_pfc_req(eth_tx_pfc_req[n*8 +: 8]),
+//             .tx_pfc_resend(1'b0),
+//             .rx_pfc_en(eth_rx_pfc_en[n*8 +: 8]),
+//             .rx_pfc_req(eth_rx_pfc_req[n*8 +: 8]),
+//             .rx_pfc_ack(eth_rx_pfc_ack[n*8 +: 8]),
 
-            /*
-             * Pause interface
-             */
-            .tx_lfc_pause_en(1'b1),
-            .tx_pause_req(1'b0),
-            .tx_pause_ack(),
+//             /*
+//              * Pause interface
+//              */
+//             .tx_lfc_pause_en(1'b1),
+//             .tx_pause_req(1'b0),
+//             .tx_pause_ack(),
 
-            /*
-             * Status
-             */
-            .tx_start_packet(),
-            .tx_error_underflow(),
-            .rx_start_packet(),
-            .rx_error_bad_frame(),
-            .rx_error_bad_fcs(),
-            .stat_tx_mcf(),
-            .stat_rx_mcf(),
-            .stat_tx_lfc_pkt(),
-            .stat_tx_lfc_xon(),
-            .stat_tx_lfc_xoff(),
-            .stat_tx_lfc_paused(),
-            .stat_tx_pfc_pkt(),
-            .stat_tx_pfc_xon(),
-            .stat_tx_pfc_xoff(),
-            .stat_tx_pfc_paused(),
-            .stat_rx_lfc_pkt(),
-            .stat_rx_lfc_xon(),
-            .stat_rx_lfc_xoff(),
-            .stat_rx_lfc_paused(),
-            .stat_rx_pfc_pkt(),
-            .stat_rx_pfc_xon(),
-            .stat_rx_pfc_xoff(),
-            .stat_rx_pfc_paused(),
+//             /*
+//              * Status
+//              */
+//             .tx_start_packet(),
+//             .tx_error_underflow(),
+//             .rx_start_packet(),
+//             .rx_error_bad_frame(),
+//             .rx_error_bad_fcs(),
+//             .stat_tx_mcf(),
+//             .stat_rx_mcf(),
+//             .stat_tx_lfc_pkt(),
+//             .stat_tx_lfc_xon(),
+//             .stat_tx_lfc_xoff(),
+//             .stat_tx_lfc_paused(),
+//             .stat_tx_pfc_pkt(),
+//             .stat_tx_pfc_xon(),
+//             .stat_tx_pfc_xoff(),
+//             .stat_tx_pfc_paused(),
+//             .stat_rx_lfc_pkt(),
+//             .stat_rx_lfc_xon(),
+//             .stat_rx_lfc_xoff(),
+//             .stat_rx_lfc_paused(),
+//             .stat_rx_pfc_pkt(),
+//             .stat_rx_pfc_xon(),
+//             .stat_rx_pfc_xoff(),
+//             .stat_rx_pfc_paused(),
 
-            /*
-             * Configuration
-             */
-            .cfg_ifg(8'd12),
-            .cfg_tx_enable(eth_tx_enable[n +: 1]),
-            .cfg_rx_enable(eth_rx_enable[n +: 1]),
-            .cfg_mcf_rx_eth_dst_mcast(48'h01_80_C2_00_00_01),
-            .cfg_mcf_rx_check_eth_dst_mcast(1'b1),
-            .cfg_mcf_rx_eth_dst_ucast(48'd0),
-            .cfg_mcf_rx_check_eth_dst_ucast(1'b0),
-            .cfg_mcf_rx_eth_src(48'd0),
-            .cfg_mcf_rx_check_eth_src(1'b0),
-            .cfg_mcf_rx_eth_type(16'h8808),
-            .cfg_mcf_rx_opcode_lfc(16'h0001),
-            .cfg_mcf_rx_check_opcode_lfc(eth_rx_lfc_en[n +: 1]),
-            .cfg_mcf_rx_opcode_pfc(16'h0101),
-            .cfg_mcf_rx_check_opcode_pfc(eth_rx_pfc_en[n*8 +: 8] != 0),
-            .cfg_mcf_rx_forward(1'b0),
-            .cfg_mcf_rx_enable(eth_rx_lfc_en[n +: 1] || eth_rx_pfc_en[n*8 +: 8]),
-            .cfg_tx_lfc_eth_dst(48'h01_80_C2_00_00_01),
-            .cfg_tx_lfc_eth_src(48'h80_23_31_43_54_4C),
-            .cfg_tx_lfc_eth_type(16'h8808),
-            .cfg_tx_lfc_opcode(16'h0001),
-            .cfg_tx_lfc_en(eth_tx_lfc_en[n +: 1]),
-            .cfg_tx_lfc_quanta(16'hffff),
-            .cfg_tx_lfc_refresh(16'h7fff),
-            .cfg_tx_pfc_eth_dst(48'h01_80_C2_00_00_01),
-            .cfg_tx_pfc_eth_src(48'h80_23_31_43_54_4C),
-            .cfg_tx_pfc_eth_type(16'h8808),
-            .cfg_tx_pfc_opcode(16'h0101),
-            .cfg_tx_pfc_en(eth_tx_pfc_en[n*8 +: 8] != 0),
-            .cfg_tx_pfc_quanta({8{16'hffff}}),
-            .cfg_tx_pfc_refresh({8{16'h7fff}}),
-            .cfg_rx_lfc_opcode(16'h0001),
-            .cfg_rx_lfc_en(eth_rx_lfc_en[n +: 1]),
-            .cfg_rx_pfc_opcode(16'h0101),
-            .cfg_rx_pfc_en(eth_rx_pfc_en[n*8 +: 8] != 0)
-        );
+//             /*
+//              * Configuration
+//              */
+//             .cfg_ifg(8'd12),
+//             .cfg_tx_enable(eth_tx_enable[n +: 1]),
+//             .cfg_rx_enable(eth_rx_enable[n +: 1]),
+//             .cfg_mcf_rx_eth_dst_mcast(48'h01_80_C2_00_00_01),
+//             .cfg_mcf_rx_check_eth_dst_mcast(1'b1),
+//             .cfg_mcf_rx_eth_dst_ucast(48'd0),
+//             .cfg_mcf_rx_check_eth_dst_ucast(1'b0),
+//             .cfg_mcf_rx_eth_src(48'd0),
+//             .cfg_mcf_rx_check_eth_src(1'b0),
+//             .cfg_mcf_rx_eth_type(16'h8808),
+//             .cfg_mcf_rx_opcode_lfc(16'h0001),
+//             .cfg_mcf_rx_check_opcode_lfc(eth_rx_lfc_en[n +: 1]),
+//             .cfg_mcf_rx_opcode_pfc(16'h0101),
+//             .cfg_mcf_rx_check_opcode_pfc(eth_rx_pfc_en[n*8 +: 8] != 0),
+//             .cfg_mcf_rx_forward(1'b0),
+//             .cfg_mcf_rx_enable(eth_rx_lfc_en[n +: 1] || eth_rx_pfc_en[n*8 +: 8]),
+//             .cfg_tx_lfc_eth_dst(48'h01_80_C2_00_00_01),
+//             .cfg_tx_lfc_eth_src(48'h80_23_31_43_54_4C),
+//             .cfg_tx_lfc_eth_type(16'h8808),
+//             .cfg_tx_lfc_opcode(16'h0001),
+//             .cfg_tx_lfc_en(eth_tx_lfc_en[n +: 1]),
+//             .cfg_tx_lfc_quanta(16'hffff),
+//             .cfg_tx_lfc_refresh(16'h7fff),
+//             .cfg_tx_pfc_eth_dst(48'h01_80_C2_00_00_01),
+//             .cfg_tx_pfc_eth_src(48'h80_23_31_43_54_4C),
+//             .cfg_tx_pfc_eth_type(16'h8808),
+//             .cfg_tx_pfc_opcode(16'h0101),
+//             .cfg_tx_pfc_en(eth_tx_pfc_en[n*8 +: 8] != 0),
+//             .cfg_tx_pfc_quanta({8{16'hffff}}),
+//             .cfg_tx_pfc_refresh({8{16'h7fff}}),
+//             .cfg_rx_lfc_opcode(16'h0001),
+//             .cfg_rx_pfc_opcode(16'h0101),
+//             .cfg_rx_pfc_en(eth_rx_pfc_en[n*8 +: 8] != 0)
+//         );
 
-    end
+//     end
 
-endgenerate
+// endgenerate
+
+// assign f_axis_eth_rx_tvalid[0] = axis_eth_rx_tvalid[0];
+// assign f_axis_eth_rx_tvalid[1] = axis_eth_rx_tvalid[0];
+
+// assign f_axis_eth_rx_tready[0] = axis_eth_rx_tready[0];
+// assign f_axis_eth_rx_tready[1] = axis_eth_rx_tready[0];
+
+// assign f_axis_eth_rx_tlast[0] = axis_eth_rx_tlast[0];
+// assign f_axis_eth_rx_tlast[1] = axis_eth_rx_tlast[0];
+
+// assign f_axis_eth_rx_tdata[0*AXIS_ETH_DATA_WIDTH +: AXIS_ETH_DATA_WIDTH] = axis_eth_rx_tdata[0*AXIS_ETH_DATA_WIDTH +: AXIS_ETH_DATA_WIDTH];
+// assign f_axis_eth_rx_tdata[1*AXIS_ETH_DATA_WIDTH +: AXIS_ETH_DATA_WIDTH] = axis_eth_rx_tdata[0*AXIS_ETH_DATA_WIDTH +: AXIS_ETH_DATA_WIDTH];
+
+// assign f_axis_eth_rx_tkeep[0*AXIS_ETH_KEEP_WIDTH +: AXIS_ETH_KEEP_WIDTH] = axis_eth_rx_tkeep[0*AXIS_ETH_KEEP_WIDTH +: AXIS_ETH_KEEP_WIDTH];
+// assign f_axis_eth_rx_tkeep[1*AXIS_ETH_KEEP_WIDTH +: AXIS_ETH_KEEP_WIDTH] = axis_eth_rx_tkeep[0*AXIS_ETH_KEEP_WIDTH +: AXIS_ETH_KEEP_WIDTH];
+
+// assign f_axis_eth_rx_tuser[0*AXIS_ETH_RX_USER_WIDTH +: AXIS_ETH_RX_USER_WIDTH] = axis_eth_rx_tuser[0*AXIS_ETH_RX_USER_WIDTH +: AXIS_ETH_RX_USER_WIDTH];
+// assign f_axis_eth_rx_tuser[1*AXIS_ETH_RX_USER_WIDTH +: AXIS_ETH_RX_USER_WIDTH] = axis_eth_rx_tuser[0*AXIS_ETH_RX_USER_WIDTH +: AXIS_ETH_RX_USER_WIDTH];
+
+
+
+assign f_eth_tx_status = {1'b1,1'b1};
+assign f_eth_rx_status = {1'b1,1'b1};
+
 
 mqnic_core_axi #(
     // FW and board IDs
@@ -1189,20 +1237,20 @@ core_inst (
     /*
      * Ethernet
      */
-    .tx_clk(eth_tx_clk),
-    .tx_rst(eth_tx_rst),
+    .tx_clk(f_eth_rx_clk),
+    .tx_rst(f_eth_rx_rst),
 
     .tx_ptp_clk(0),
     .tx_ptp_rst(0),
     .tx_ptp_ts_tod(eth_tx_ptp_ts_tod),
     .tx_ptp_ts_tod_step(eth_tx_ptp_ts_tod_step),
 
-    .m_axis_tx_tdata(axis_eth_tx_tdata),
-    .m_axis_tx_tkeep(axis_eth_tx_tkeep),
-    .m_axis_tx_tvalid(axis_eth_tx_tvalid),
-    .m_axis_tx_tready(axis_eth_tx_tready),
-    .m_axis_tx_tlast(axis_eth_tx_tlast),
-    .m_axis_tx_tuser(axis_eth_tx_tuser),
+    .m_axis_tx_tdata(f_axis_eth_tx_tdata),
+    .m_axis_tx_tkeep(f_axis_eth_tx_tkeep),
+    .m_axis_tx_tvalid(f_axis_eth_tx_tvalid),
+    .m_axis_tx_tready(f_axis_eth_tx_tready),
+    .m_axis_tx_tlast(f_axis_eth_tx_tlast),
+    .m_axis_tx_tuser(f_axis_eth_tx_tuser),
 
     .s_axis_tx_cpl_ts(axis_eth_tx_ptp_ts),
     .s_axis_tx_cpl_tag(axis_eth_tx_ptp_ts_tag),
@@ -1210,30 +1258,30 @@ core_inst (
     .s_axis_tx_cpl_ready(axis_eth_tx_ptp_ts_ready),
 
     .tx_enable(eth_tx_enable),
-    .tx_status(eth_tx_status),
+    .tx_status(f_eth_tx_status),
     .tx_lfc_en(eth_tx_lfc_en),
     .tx_lfc_req(eth_tx_lfc_req),
     .tx_pfc_en(eth_tx_pfc_en),
     .tx_pfc_req(eth_tx_pfc_req),
     .tx_fc_quanta_clk_en(0),
 
-    .rx_clk(eth_rx_clk),
-    .rx_rst(eth_rx_rst),
+    .rx_clk(f_eth_rx_clk),
+    .rx_rst(f_eth_rx_rst),
 
     .rx_ptp_clk(0),
     .rx_ptp_rst(0),
     .rx_ptp_ts_tod(eth_rx_ptp_ts_tod),
     .rx_ptp_ts_tod_step(eth_rx_ptp_ts_tod_step),
 
-    .s_axis_rx_tdata(axis_eth_rx_tdata),
-    .s_axis_rx_tkeep(axis_eth_rx_tkeep),
-    .s_axis_rx_tvalid(axis_eth_rx_tvalid),
-    .s_axis_rx_tready(axis_eth_rx_tready),
-    .s_axis_rx_tlast(axis_eth_rx_tlast),
-    .s_axis_rx_tuser(axis_eth_rx_tuser),
+    .s_axis_rx_tdata(f_axis_eth_rx_tdata),
+    .s_axis_rx_tkeep(f_axis_eth_rx_tkeep),
+    .s_axis_rx_tvalid(f_axis_eth_rx_tvalid),
+    .s_axis_rx_tready(f_axis_eth_rx_tready),
+    .s_axis_rx_tlast(f_axis_eth_rx_tlast),
+    .s_axis_rx_tuser(f_axis_eth_rx_tuser),
 
     .rx_enable(eth_rx_enable),
-    .rx_status(eth_rx_status),
+    .rx_status(f_eth_rx_status),
     .rx_lfc_en(eth_rx_lfc_en),
     .rx_lfc_req(eth_rx_lfc_req),
     .rx_lfc_ack(eth_rx_lfc_ack),
@@ -1366,6 +1414,14 @@ core_inst (
     .app_jtag_tms(1'b0),
     .app_jtag_tck(1'b0)
 );
+assign f_axis_eth_rx_tdata =  {f_axis_eth_tx_tdata[0 +: AXIS_ETH_DATA_WIDTH],f_axis_eth_tx_tdata[AXIS_ETH_DATA_WIDTH +: AXIS_ETH_DATA_WIDTH]};
+assign f_axis_eth_rx_tkeep =  {f_axis_eth_tx_tkeep[0 +: AXIS_ETH_KEEP_WIDTH],f_axis_eth_tx_tkeep[AXIS_ETH_KEEP_WIDTH +: AXIS_ETH_KEEP_WIDTH]};
+assign f_axis_eth_rx_tvalid = {f_axis_eth_tx_tvalid[0 +: 1],f_axis_eth_tx_tvalid[1 +: 1]};
+assign f_axis_eth_rx_tready = {f_axis_eth_tx_tready[0 +: 1],f_axis_eth_tx_tready[1 +: 1]};
+assign f_axis_eth_rx_tlast =  {f_axis_eth_tx_tlast[0 +: 1],f_axis_eth_tx_tlast[1 +: 1]};
+assign f_axis_eth_rx_tuser =  {f_axis_eth_tx_tuser[0 +: AXIS_ETH_TX_USER_WIDTH],f_axis_eth_tx_tuser[AXIS_ETH_TX_USER_WIDTH +: AXIS_ETH_TX_USER_WIDTH]};
+assign f_eth_rx_clk = {clk_125mhz,clk_125mhz};
+assign f_eth_rx_rst = {rst_125mhz,rst_125mhz};
 
 endmodule
 
