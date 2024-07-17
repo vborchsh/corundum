@@ -35,7 +35,7 @@ module fpga #
     parameter PORT_MASK = 0,
 
     // Clock configuration
-    parameter CLK_PERIOD_NS_NUM = 4,
+    parameter CLK_PERIOD_NS_NUM = 8,
     parameter CLK_PERIOD_NS_DENOM = 1,
 
     // PTP configuration
@@ -46,13 +46,13 @@ module fpga #
     parameter PTP_PEROUT_COUNT = 1,
 
     // Queue manager configuration
-    parameter EVENT_QUEUE_OP_TABLE_SIZE = 32,
-    parameter TX_QUEUE_OP_TABLE_SIZE = 32,
-    parameter RX_QUEUE_OP_TABLE_SIZE = 32,
-    parameter CQ_OP_TABLE_SIZE = 32,
-    parameter EQN_WIDTH = 5,
-    parameter TX_QUEUE_INDEX_WIDTH = 13,
-    parameter RX_QUEUE_INDEX_WIDTH = 8,
+    parameter EVENT_QUEUE_OP_TABLE_SIZE = 4,
+    parameter TX_QUEUE_OP_TABLE_SIZE = 4,
+    parameter RX_QUEUE_OP_TABLE_SIZE = 4,
+    parameter CQ_OP_TABLE_SIZE = 4,
+    parameter EQN_WIDTH = 2,
+    parameter TX_QUEUE_INDEX_WIDTH = 2,
+    parameter RX_QUEUE_INDEX_WIDTH = 2,
     parameter CQN_WIDTH = (TX_QUEUE_INDEX_WIDTH > RX_QUEUE_INDEX_WIDTH ? TX_QUEUE_INDEX_WIDTH : RX_QUEUE_INDEX_WIDTH) + 1,
     parameter EQ_PIPELINE = 3,
     parameter TX_QUEUE_PIPELINE = 3+(TX_QUEUE_INDEX_WIDTH > 12 ? TX_QUEUE_INDEX_WIDTH-12 : 0),
@@ -108,9 +108,9 @@ module fpga #
 
     // AXI interface configuration (DMA)
     parameter AXI_DATA_WIDTH = 128,
-    parameter AXI_ADDR_WIDTH = 32,
+    parameter AXI_ADDR_WIDTH = 64,
     parameter AXI_STRB_WIDTH = (AXI_DATA_WIDTH/8),
-    parameter AXI_ID_WIDTH = 8,
+    parameter AXI_ID_WIDTH = 6,
 
     // DMA interface configuration
     parameter DMA_IMM_ENABLE = 0,
@@ -119,10 +119,10 @@ module fpga #
     parameter DMA_TAG_WIDTH = 16,
     parameter RAM_ADDR_WIDTH = $clog2(TX_RAM_SIZE > RX_RAM_SIZE ? TX_RAM_SIZE : RX_RAM_SIZE),
     parameter RAM_PIPELINE = 2,
-    parameter AXI_DMA_MAX_BURST_LEN = 256,
+    parameter AXI_DMA_MAX_BURST_LEN = 16,
 
     // Interrupts
-    parameter IRQ_COUNT = 32,
+    parameter IRQ_COUNT = 8,
     parameter IRQ_STRETCH = 10,
 
     // AXI lite interface configuration (control)
