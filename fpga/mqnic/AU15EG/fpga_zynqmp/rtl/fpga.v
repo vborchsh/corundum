@@ -153,23 +153,7 @@ module fpga #
     /*
      * LEDs
      */
-    output wire [1:0]   led,
-
-    /*
-     * Ethernet: SFP+
-     */
-    // input  wire         sfp0_rx_p,
-    // input  wire         sfp0_rx_n,
-    // output wire         sfp0_tx_p,
-    // output wire         sfp0_tx_n,
-    // input  wire         sfp1_rx_p,
-    // input  wire         sfp1_rx_n,
-    // output wire         sfp1_tx_p,
-    // output wire         sfp1_tx_n,
-    // input  wire         sfp_mgt_refclk_0_p,
-    // input  wire         sfp_mgt_refclk_0_n,
-    // output wire         sfp0_tx_disable_b,
-    // output wire         sfp1_tx_disable_b
+    output wire [1:0]   led
 );
 
 // PTP configuration
@@ -399,176 +383,6 @@ zynq_ps zynq_ps_inst (
     .s_axi_dma_wstrb(axi_wstrb),
     .s_axi_dma_wvalid(axi_wvalid)
 );
-
-// XGMII 10G PHY
-// wire                         sfp0_tx_clk_int;
-// wire                         sfp0_tx_rst_int;
-// wire [XGMII_DATA_WIDTH-1:0]  sfp0_txd_int;
-// wire [XGMII_CTRL_WIDTH-1:0]  sfp0_txc_int;
-// wire                         sfp0_cfg_tx_prbs31_enable_int;
-// wire                         sfp0_rx_clk_int;
-// wire                         sfp0_rx_rst_int;
-// wire [XGMII_DATA_WIDTH-1:0]  sfp0_rxd_int;
-// wire [XGMII_CTRL_WIDTH-1:0]  sfp0_rxc_int;
-// wire                         sfp0_cfg_rx_prbs31_enable_int;
-// wire [6:0]                   sfp0_rx_error_count_int;
-
-// wire                         sfp1_tx_clk_int;
-// wire                         sfp1_tx_rst_int;
-// wire [XGMII_DATA_WIDTH-1:0]  sfp1_txd_int;
-// wire [XGMII_CTRL_WIDTH-1:0]  sfp1_txc_int;
-// wire                         sfp1_cfg_tx_prbs31_enable_int;
-// wire                         sfp1_rx_clk_int;
-// wire                         sfp1_rx_rst_int;
-// wire [XGMII_DATA_WIDTH-1:0]  sfp1_rxd_int;
-// wire [XGMII_CTRL_WIDTH-1:0]  sfp1_rxc_int;
-// wire                         sfp1_cfg_rx_prbs31_enable_int;
-// wire [6:0]                   sfp1_rx_error_count_int;
-
-// wire        sfp_drp_clk = clk_125mhz_int;
-// wire        sfp_drp_rst = rst_125mhz_int;
-// wire [23:0] sfp_drp_addr;
-// wire [15:0] sfp_drp_di;
-// wire        sfp_drp_en;
-// wire        sfp_drp_we;
-// wire [15:0] sfp_drp_do;
-// wire        sfp_drp_rdy;
-
-// wire sfp0_rx_block_lock;
-// wire sfp0_rx_status;
-// wire sfp1_rx_block_lock;
-// wire sfp1_rx_status;
-
-// wire sfp_gtpowergood;
-
-// wire sfp_mgt_refclk_0;
-// wire sfp_mgt_refclk_0_int;
-// wire sfp_mgt_refclk_0_bufg;
-
-// IBUFDS_GTE4 ibufds_gte4_sfp_mgt_refclk_0_inst (
-//     .I     (sfp_mgt_refclk_0_p),
-//     .IB    (sfp_mgt_refclk_0_n),
-//     .CEB   (1'b0),
-//     .O     (sfp_mgt_refclk_0),
-//     .ODIV2 (sfp_mgt_refclk_0_int)
-// );
-
-// BUFG_GT bufg_gt_sfp_mgt_refclk_0_inst (
-//     .CE      (sfp_gtpowergood),
-//     .CEMASK  (1'b1),
-//     .CLR     (1'b0),
-//     .CLRMASK (1'b1),
-//     .DIV     (3'd0),
-//     .I       (sfp_mgt_refclk_0_int),
-//     .O       (sfp_mgt_refclk_0_bufg)
-// );
-
-// wire sfp_rst;
-
-// sync_reset #(
-//     .N(4)
-// )
-// sfp_sync_reset_inst (
-//     .clk(sfp_mgt_refclk_0_bufg),
-//     .rst(rst_125mhz_int),
-//     .out(sfp_rst)
-// );
-
-// eth_xcvr_phy_10g_gty_quad_wrapper #(
-//     .COUNT(2),
-//     .GT_GTH(1),
-//     .PRBS31_ENABLE(1)
-// )
-// sfp_phy_quad_inst (
-//     .xcvr_ctrl_clk(clk_125mhz_int),
-//     .xcvr_ctrl_rst(sfp_rst),
-
-//     /*
-//      * Common
-//      */
-//     .xcvr_gtpowergood_out(sfp_gtpowergood),
-//     .xcvr_gtrefclk00_in(sfp_mgt_refclk_0),
-//     .xcvr_qpll0pd_in(1'b0),
-//     .xcvr_qpll0reset_in(1'b0),
-//     .xcvr_qpll0pcierate_in(3'd0),
-//     .xcvr_qpll0lock_out(),
-//     .xcvr_qpll0clk_out(),
-//     .xcvr_qpll0refclk_out(),
-//     .xcvr_gtrefclk01_in(sfp_mgt_refclk_0),
-//     .xcvr_qpll1pd_in(1'b0),
-//     .xcvr_qpll1reset_in(1'b0),
-//     .xcvr_qpll1pcierate_in(3'd0),
-//     .xcvr_qpll1lock_out(),
-//     .xcvr_qpll1clk_out(),
-//     .xcvr_qpll1refclk_out(),
-
-//     /*
-//      * DRP
-//      */
-//     .drp_clk(sfp_drp_clk),
-//     .drp_rst(sfp_drp_rst),
-//     .drp_addr(sfp_drp_addr),
-//     .drp_di(sfp_drp_di),
-//     .drp_en(sfp_drp_en),
-//     .drp_we(sfp_drp_we),
-//     .drp_do(sfp_drp_do),
-//     .drp_rdy(sfp_drp_rdy),
-
-//     /*
-//      * Serial data
-//      */
-//     .xcvr_txp({sfp1_tx_p, sfp0_tx_p}),
-//     .xcvr_txn({sfp1_tx_n, sfp0_tx_n}),
-//     .xcvr_rxp({sfp1_rx_p, sfp0_rx_p}),
-//     .xcvr_rxn({sfp1_rx_n, sfp0_rx_n}),
-
-//     /*
-//      * PHY connections
-//      */
-//     .phy_1_tx_clk(sfp0_tx_clk_int),
-//     .phy_1_tx_rst(sfp0_tx_rst_int),
-//     .phy_1_xgmii_txd(sfp0_txd_int),
-//     .phy_1_xgmii_txc(sfp0_txc_int),
-//     .phy_1_rx_clk(sfp0_rx_clk_int),
-//     .phy_1_rx_rst(sfp0_rx_rst_int),
-//     .phy_1_xgmii_rxd(sfp0_rxd_int),
-//     .phy_1_xgmii_rxc(sfp0_rxc_int),
-//     .phy_1_tx_bad_block(),
-//     .phy_1_rx_error_count(sfp0_rx_error_count_int),
-//     .phy_1_rx_bad_block(),
-//     .phy_1_rx_sequence_error(),
-//     .phy_1_rx_block_lock(sfp0_rx_block_lock),
-//     .phy_1_rx_high_ber(),
-//     .phy_1_rx_status(sfp0_rx_status),
-//     .phy_1_cfg_tx_prbs31_enable(sfp0_cfg_tx_prbs31_enable_int),
-//     .phy_1_cfg_rx_prbs31_enable(sfp0_cfg_rx_prbs31_enable_int),
-
-//     .phy_2_tx_clk(sfp1_tx_clk_int),
-//     .phy_2_tx_rst(sfp1_tx_rst_int),
-//     .phy_2_xgmii_txd(sfp1_txd_int),
-//     .phy_2_xgmii_txc(sfp1_txc_int),
-//     .phy_2_rx_clk(sfp1_rx_clk_int),
-//     .phy_2_rx_rst(sfp1_rx_rst_int),
-//     .phy_2_xgmii_rxd(sfp1_rxd_int),
-//     .phy_2_xgmii_rxc(sfp1_rxc_int),
-//     .phy_2_tx_bad_block(),
-//     .phy_2_rx_error_count(sfp1_rx_error_count_int),
-//     .phy_2_rx_bad_block(),
-//     .phy_2_rx_sequence_error(),
-//     .phy_2_rx_block_lock(sfp1_rx_block_lock),
-//     .phy_2_rx_high_ber(),
-//     .phy_2_rx_status(sfp1_rx_status),
-//     .phy_2_cfg_tx_prbs31_enable(sfp1_cfg_tx_prbs31_enable_int),
-//     .phy_2_cfg_rx_prbs31_enable(sfp1_cfg_rx_prbs31_enable_int)
-// );
-
-wire ptp_clk;
-wire ptp_rst;
-wire ptp_sample_clk;
-
-assign ptp_clk = sfp_mgt_refclk_0_bufg;
-assign ptp_rst = sfp_rst;
-assign ptp_sample_clk = clk_125mhz_int;
 
 // DDR4
 wire [DDR_CH-1:0]                     ddr_clk;
@@ -867,23 +681,25 @@ fpga_core #(
 )
 core_inst (
     /*
-     * Clock: 300 MHz
+     * Clock
      * Synchronous reset
      */
-    .clk_300mhz(zynq_pl_clk),
-    .rst_300mhz(zynq_pl_reset),
+    .clk(zynq_pl_clk),
+    .rst(zynq_pl_reset),
 
     /*
      * PTP clock
      */
-    .ptp_clk(ptp_clk),
-    .ptp_rst(ptp_rst),
-    .ptp_sample_clk(ptp_sample_clk),
+    .ptp_clk(clk_125mhz_int),
+    .ptp_rst(rst_125mhz_int),
+    .ptp_sample_clk(clk_125mhz_int),
 
     /*
      * Interrupt outputs
      */
     .irq(irq),
+
+    .led(led),
 
     /*
      * AXI master interface (DMA)
@@ -969,46 +785,6 @@ core_inst (
     .s_axil_app_ctrl_rresp(axil_app_ctrl_rresp),
     .s_axil_app_ctrl_rvalid(axil_app_ctrl_rvalid),
     .s_axil_app_ctrl_rready(axil_app_ctrl_rready),
-
-    /*
-     * Ethernet: SFP+
-     */
-    // .sfp0_tx_clk(sfp0_tx_clk_int),
-    // .sfp0_tx_rst(sfp0_tx_rst_int),
-    // .sfp0_txd(sfp0_txd_int),
-    // .sfp0_txc(sfp0_txc_int),
-    // .sfp0_cfg_tx_prbs31_enable(sfp0_cfg_tx_prbs31_enable_int),
-    // .sfp0_rx_clk(sfp0_rx_clk_int),
-    // .sfp0_rx_rst(sfp0_rx_rst_int),
-    // .sfp0_rxd(sfp0_rxd_int),
-    // .sfp0_rxc(sfp0_rxc_int),
-    // .sfp0_cfg_rx_prbs31_enable(sfp0_cfg_rx_prbs31_enable_int),
-    // .sfp0_rx_error_count(sfp0_rx_error_count_int),
-    // .sfp0_rx_status(sfp0_rx_status),
-    // .sfp0_tx_disable_b(sfp0_tx_disable_b),
-
-    // .sfp1_tx_clk(sfp1_tx_clk_int),
-    // .sfp1_tx_rst(sfp1_tx_rst_int),
-    // .sfp1_txd(sfp1_txd_int),
-    // .sfp1_txc(sfp1_txc_int),
-    // .sfp1_cfg_tx_prbs31_enable(sfp1_cfg_tx_prbs31_enable_int),
-    // .sfp1_rx_clk(sfp1_rx_clk_int),
-    // .sfp1_rx_rst(sfp1_rx_rst_int),
-    // .sfp1_rxd(sfp1_rxd_int),
-    // .sfp1_rxc(sfp1_rxc_int),
-    // .sfp1_cfg_rx_prbs31_enable(sfp1_cfg_rx_prbs31_enable_int),
-    // .sfp1_rx_error_count(sfp1_rx_error_count_int),
-    // .sfp1_rx_status(sfp1_rx_status),
-    // .sfp1_tx_disable_b(sfp1_tx_disable_b),
-
-    // .sfp_drp_clk(sfp_drp_clk),
-    // .sfp_drp_rst(sfp_drp_rst),
-    // .sfp_drp_addr(sfp_drp_addr),
-    // .sfp_drp_di(sfp_drp_di),
-    // .sfp_drp_en(sfp_drp_en),
-    // .sfp_drp_we(sfp_drp_we),
-    // .sfp_drp_do(sfp_drp_do),
-    // .sfp_drp_rdy(sfp_drp_rdy),
 
     /*
      * DDR
