@@ -28,5 +28,5 @@ set_output_delay 0.000 [get_ports {led[*]}]
 # 125 MHz MGT reference clock
 # create_clock -period 8.000 -name sfp_mgt_refclk_0 [get_ports sfp_mgt_refclk_0_p]
 
-set_false_path -to [get_ports {sfp0_tx_disable_b sfp1_tx_disable_b}]
-set_output_delay 0.000 [get_ports {sfp0_tx_disable_b sfp1_tx_disable_b}]
+# set_false_path -to [get_ports {sfp0_tx_disable_b sfp1_tx_disable_b}]
+# set_output_delay 0.000 [get_ports {sfp0_tx_disable_b sfp1_tx_disable_b}]

@@ -516,9 +516,10 @@ assign eth_tx_rst = {rst, rst};
 assign axis_eth_rx_tdata  = {axis_eth_tx_tdata  [0 +: AXIS_ETH_DATA_WIDTH],    axis_eth_tx_tdata [AXIS_ETH_DATA_WIDTH +: AXIS_ETH_DATA_WIDTH]};
 assign axis_eth_rx_tkeep  = {axis_eth_tx_tkeep  [0 +: AXIS_ETH_KEEP_WIDTH],    axis_eth_tx_tkeep [AXIS_ETH_KEEP_WIDTH +: AXIS_ETH_KEEP_WIDTH]};
 assign axis_eth_rx_tvalid = {axis_eth_tx_tvalid [0 +: 1],                      axis_eth_tx_tvalid[1 +: 1]};
-assign axis_eth_rx_tready = {axis_eth_tx_tready [0 +: 1],                      axis_eth_tx_tready[1 +: 1]};
 assign axis_eth_rx_tlast  = {axis_eth_tx_tlast  [0 +: 1],                      axis_eth_tx_tlast [1 +: 1]};
 assign axis_eth_rx_tuser  = {axis_eth_tx_tuser  [0 +: AXIS_ETH_TX_USER_WIDTH], axis_eth_tx_tuser [AXIS_ETH_TX_USER_WIDTH +: AXIS_ETH_TX_USER_WIDTH]};
+
+assign axis_eth_tx_tready = {axis_eth_rx_tready [0 +: 1],                      axis_eth_rx_tready[1 +: 1]};
 
 mqnic_core_axi #(
     // FW and board IDs
